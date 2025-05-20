@@ -1,0 +1,8 @@
+6 6
+9
+ABCCE.
+ABDDE.
+PPFH..K
+..FHI.
+..GHI.
+..G...

@@ -1,0 +1,9 @@
+Initial board:
+..BB.. 
+..AACC 
+PPDD..K
+EE.F.. 
+...FGG 
+...... 
+
+No solution found for this puzzle.

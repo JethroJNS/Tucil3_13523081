@@ -1,0 +1,175 @@
+Initial board:
+ABCCE. 
+ABDDE. 
+PPFH..K
+..FHI. 
+..GHI. 
+..G... 
+
+Move 1: E down 1
+ABCC.. 
+ABDDE. 
+PPFHE.K
+..FHI. 
+..GHI. 
+..G... 
+
+Move 2: I down 1
+ABCC.. 
+ABDDE. 
+PPFHE.K
+..FH.. 
+..GHI. 
+..G.I. 
+
+Move 3: C right 1
+AB.CC. 
+ABDDE. 
+PPFHE.K
+..FH.. 
+..GHI. 
+..G.I. 
+
+Move 4: E down 1
+AB.CC. 
+ABDD.. 
+PPFHE.K
+..FHE. 
+..GHI. 
+..G.I. 
+
+Move 5: D right 1
+AB.CC. 
+AB.DD. 
+PPFHE.K
+..FHE. 
+..GHI. 
+..G.I. 
+
+Move 6: F up 2
+ABFCC. 
+ABFDD. 
+PP.HE.K
+...HE. 
+..GHI. 
+..G.I. 
+
+Move 7: H down 1
+ABFCC. 
+ABFDD. 
+PP..E.K
+...HE. 
+..GHI. 
+..GHI. 
+
+Move 8: P right 2
+ABFCC. 
+ABFDD. 
+..PPE.K
+...HE. 
+..GHI. 
+..GHI. 
+
+Move 9: A down 3
+.BFCC. 
+.BFDD. 
+..PPE.K
+A..HE. 
+A.GHI. 
+..GHI. 
+
+Move 10: B down 3
+..FCC. 
+..FDD. 
+..PPE.K
+AB.HE. 
+ABGHI. 
+..GHI. 
+
+Move 11: P left 2
+..FCC. 
+..FDD. 
+PP..E.K
+AB.HE. 
+ABGHI. 
+..GHI. 
+
+Move 12: F down 1
+...CC. 
+..FDD. 
+PPF.E.K
+AB.HE. 
+ABGHI. 
+..GHI. 
+
+Move 13: C left 1
+..CC.. 
+..FDD. 
+PPF.E.K
+AB.HE. 
+ABGHI. 
+..GHI. 
+
+Move 14: F down 1
+..CC.. 
+...DD. 
+PPF.E.K
+ABFHE. 
+ABGHI. 
+..GHI. 
+
+Move 15: D left 1
+..CC.. 
+..DD.. 
+PPF.E.K
+ABFHE. 
+ABGHI. 
+..GHI. 
+
+Move 16: E up 2
+..CCE. 
+..DDE. 
+PPF...K
+ABFH.. 
+ABGHI. 
+..GHI. 
+
+Move 17: D left 2
+..CCE. 
+DD..E. 
+PPF...K
+ABFH.. 
+ABGHI. 
+..GHI. 
+
+Move 18: C left 2
+CC..E. 
+DD..E. 
+PPF...K
+ABFH.. 
+ABGHI. 
+..GHI. 
+
+Move 19: F up 2
+CCF.E. 
+DDF.E. 
+PP....K
+AB.H.. 
+ABGHI. 
+..GHI. 
+
+Move 20: P right 4
+CCF.E. 
+DDF.E. 
+....PPK
+AB.H.. 
+ABGHI. 
+..GHI. 
+
+Move 21: P right 1
+CCF.E. 
+DDF.E. 
+......K
+AB.H.. 
+ABGHI. 
+..GHI. 

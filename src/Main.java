@@ -125,7 +125,7 @@ public class Main {
 
         } else {
             System.out.println("\nNo solution found");
-            scanner.nextLine(); // consume newline left from previous nextInt()
+            scanner.nextLine();
             String outputFileName;
             while (true) {
                 System.out.print("\nEnter output file name to save the result (must end with .txt): ");

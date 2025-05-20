@@ -1,0 +1,239 @@
+Initial board:
+.ADD.E 
+.ABC.E 
+PPBC.FK
+IIGH.F 
+..GH.. 
+...... 
+
+Move 1: G down 1
+.ADD.E 
+.ABC.E 
+PPBC.FK
+II.H.F 
+..GH.. 
+..G... 
+
+Move 2: F down 1
+.ADD.E 
+.ABC.E 
+PPBC..K
+II.H.F 
+..GH.F 
+..G... 
+
+Move 3: H down 1
+.ADD.E 
+.ABC.E 
+PPBC..K
+II...F 
+..GH.F 
+..GH.. 
+
+Move 4: E down 1
+.ADD.. 
+.ABC.E 
+PPBC.EK
+II...F 
+..GH.F 
+..GH.. 
+
+Move 5: D right 1
+.A.DD. 
+.ABC.E 
+PPBC.EK
+II...F 
+..GH.F 
+..GH.. 
+
+Move 6: B up 1
+.ABDD. 
+.ABC.E 
+PP.C.EK
+II...F 
+..GH.F 
+..GH.. 
+
+Move 7: F down 1
+.ABDD. 
+.ABC.E 
+PP.C.EK
+II.... 
+..GH.F 
+..GH.F 
+
+Move 8: C down 1
+.ABDD. 
+.AB..E 
+PP.C.EK
+II.C.. 
+..GH.F 
+..GH.F 
+
+Move 9: D right 1
+.AB.DD 
+.AB..E 
+PP.C.EK
+II.C.. 
+..GH.F 
+..GH.F 
+
+Move 10: C up 2
+.ABCDD 
+.ABC.E 
+PP...EK
+II.... 
+..GH.F 
+..GH.F 
+
+Move 11: I right 3
+.ABCDD 
+.ABC.E 
+PP...EK
+...II. 
+..GH.F 
+..GH.F 
+
+Move 12: P right 3
+.ABCDD 
+.ABC.E 
+...PPEK
+...II. 
+..GH.F 
+..GH.F 
+
+Move 13: A down 3
+..BCDD 
+..BC.E 
+...PPEK
+.A.II. 
+.AGH.F 
+..GH.F 
+
+Move 14: P left 3
+..BCDD 
+..BC.E 
+PP...EK
+.A.II. 
+.AGH.F 
+..GH.F 
+
+Move 15: C down 1
+..B.DD 
+..BC.E 
+PP.C.EK
+.A.II. 
+.AGH.F 
+..GH.F 
+
+Move 16: A down 1
+..B.DD 
+..BC.E 
+PP.C.EK
+...II. 
+.AGH.F 
+.AGH.F 
+
+Move 17: I left 3
+..B.DD 
+..BC.E 
+PP.C.EK
+II.... 
+.AGH.F 
+.AGH.F 
+
+Move 18: D left 1
+..BDD. 
+..BC.E 
+PP.C.EK
+II.... 
+.AGH.F 
+.AGH.F 
+
+Move 19: I right 4
+..BDD. 
+..BC.E 
+PP.C.EK
+....II 
+.AGH.F 
+.AGH.F 
+
+Move 20: B down 1
+...DD. 
+..BC.E 
+PPBC.EK
+....II 
+.AGH.F 
+.AGH.F 
+
+Move 21: D left 3
+DD.... 
+..BC.E 
+PPBC.EK
+....II 
+.AGH.F 
+.AGH.F 
+
+Move 22: A up 1
+DD.... 
+..BC.E 
+PPBC.EK
+.A..II 
+.AGH.F 
+..GH.F 
+
+Move 23: B up 1
+DDB... 
+..BC.E 
+PP.C.EK
+.A..II 
+.AGH.F 
+..GH.F 
+
+Move 24: C up 1
+DDBC.. 
+..BC.E 
+PP...EK
+.A..II 
+.AGH.F 
+..GH.F 
+
+Move 25: I left 1
+DDBC.. 
+..BC.E 
+PP...EK
+.A.II. 
+.AGH.F 
+..GH.F 
+
+Move 26: F up 1
+DDBC.. 
+..BC.E 
+PP...EK
+.A.IIF 
+.AGH.F 
+..GH.. 
+
+Move 27: E up 1
+DDBC.E 
+..BC.E 
+PP....K
+.A.IIF 
+.AGH.F 
+..GH.. 
+
+Move 28: P right 4
+DDBC.E 
+..BC.E 
+....PPK
+.A.IIF 
+.AGH.F 
+..GH.. 
+
+Move 29: P right 1
+DDBC.E 
+..BC.E 
+......K
+.A.IIF 
+.AGH.F 
+..GH.. 

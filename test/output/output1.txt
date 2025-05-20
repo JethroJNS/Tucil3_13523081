@@ -1,0 +1,19 @@
+Initial board:
+PPAK
+BBA 
+... 
+
+Move 1: A down 1
+PP.K
+BBA 
+..A 
+
+Move 2: P right 1
+.PPK
+BBA 
+..A 
+
+Move 3: P right 1
+...K
+BBA 
+..A 
