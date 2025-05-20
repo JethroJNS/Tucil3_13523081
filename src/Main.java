@@ -122,8 +122,30 @@ public class Main {
             String outputPath = outputDir + File.separator + outputFileName;
             saveSolutionToFile(outputPath, board, solution);
             System.out.println("\nSolution saved to: " + outputPath);
+
         } else {
             System.out.println("\nNo solution found");
+            scanner.nextLine(); // consume newline left from previous nextInt()
+            String outputFileName;
+            while (true) {
+                System.out.print("\nEnter output file name to save the result (must end with .txt): ");
+                outputFileName = scanner.nextLine().trim();
+                if (outputFileName.toLowerCase().endsWith(".txt")) {
+                    break;
+                } else {
+                    System.out.println("Invalid file name. The output file must have a '.txt' extension.");
+                }
+            }
+
+            String outputDir = "test/output";
+            File outputDirectory = new File(outputDir);
+            if (!outputDirectory.exists()) {
+                outputDirectory.mkdirs();
+            }
+
+            String outputPath = outputDir + File.separator + outputFileName;
+            saveNoSolutionToFile(outputPath, board);
+            System.out.println("\nResult saved to: " + outputPath);
         }
     }
     
@@ -176,6 +198,16 @@ public class Main {
             }
         } catch (IOException e) {
             System.err.println("Error saving solution to file: " + e.getMessage());
+        }
+    }
+
+    private static void saveNoSolutionToFile(String filePath, Board initialBoard) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            writer.println("Initial board:");
+            writeBoardToFile(writer, initialBoard, null);
+            writer.println("\nNo solution found for this puzzle.");
+        } catch (IOException e) {
+            System.err.println("Error saving result to file: " + e.getMessage());
         }
     }
     
