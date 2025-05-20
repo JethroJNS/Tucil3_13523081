@@ -1,9 +1,9 @@
 package model;
 
 public class Move {
-    private final Piece piece;
-    private final String direction;
-    private final int steps;
+    private Piece piece;
+    private String direction;
+    private int steps;
 
     public Move(Piece piece, String direction, int steps) {
         this.piece = piece;
@@ -18,6 +18,6 @@ public class Move {
 
     @Override
     public String toString() {
-        return piece.getId() + "-" + direction + "(" + steps + ")";
+        return piece.getId() + " " + direction + " " + steps;
     }
 }

@@ -1,10 +1,7 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +12,7 @@ import algorithms.UniformCostSearch;
 import model.Board;
 import model.Move;
 import model.Piece;
+import handler.InputHandler;
 import heuristics.BlockingHeuristic;
 import heuristics.MobilityHeuristic;
 import heuristics.Heuristic;
@@ -49,10 +47,13 @@ public class Main {
             return;
         }
 
-        // Load board
-        Board board = loadBoard(filePath);
-        if (board == null) {
-            System.out.println("Failed to load board. The file may be corrupted or incorrectly formatted.");
+        // Load board using InputHandler
+        Board board;
+        try {
+            InputHandler inputHandler = new InputHandler();
+            board = inputHandler.readInput(filePath);
+        } catch (Exception e) {
+            System.out.println("Failed to load board: " + e.getMessage());
             return;
         }
         
@@ -144,11 +145,16 @@ public class Main {
             // Move terakhir
             if (currentBoard.isSolved()) {
                 Piece p = currentBoard.getPrimaryPiece();
-                Move finalMove = new Move(p, currentBoard.getExitDirection(), p.getLength());
+                String exitDirection = p.getOrientation().equals("horizontal") ? "right" : "down";
+                Move finalMove = new Move(p, exitDirection, 1);
                 
                 writer.printf("\nMove %d: %s\n", solution.size() + 1, finalMove);
                 
-                char[][] grid = currentBoard.getGridCopy();
+                char[][] grid = new char[currentBoard.getRows()][currentBoard.getCols()];
+                for (int i = 0; i < currentBoard.getRows(); i++) {
+                    System.arraycopy(currentBoard.getGrid()[i], 0, grid[i], 0, currentBoard.getCols());
+                }
+                
                 for (int k = 0; k < p.getLength(); k++) {
                     if (p.getOrientation().equals("horizontal")) {
                         grid[p.getRow()][p.getCol() + k] = '.';
@@ -163,8 +169,7 @@ public class Main {
                     grid,
                     currentBoard.getPieces(),
                     currentBoard.getExitRow(),
-                    currentBoard.getExitCol(),
-                    currentBoard.getExitDirection()
+                    currentBoard.getExitCol()
                 );
                 
                 writeBoardToFile(writer, exitedBoard, null);
@@ -176,7 +181,7 @@ public class Main {
     
     // Menulis kondisi board ke file
     private static void writeBoardToFile(PrintWriter writer, Board board, Piece movingPiece) {
-        char[][] grid = board.getGridCopy();
+        char[][] grid = board.getGrid();
         int rows = board.getRows();
         int cols = board.getCols();
         
@@ -196,190 +201,46 @@ public class Main {
         }
     }
 
-    // Load konfigurasi board dari file input
-    public static Board loadBoard(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            // Membaca ukuran board (baris dan kolom)
-            String[] dims = br.readLine().split(" ");
-            if (dims.length != 2) {
-                System.out.println("Error: First line must contain exactly two numbers (rows and columns)");
-                return null;
-            }
-
-            int rows, cols;
-            try {
-                rows = Integer.parseInt(dims[0]);
-                cols = Integer.parseInt(dims[1]);
-                if (rows <= 0 || cols <= 0) {
-                    System.out.println("Error: Rows and columns must be positive numbers");
-                    return null;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Rows and columns must be valid numbers");
-                return null;
-            }
-
-            // Membaca jumlah piece
-            String pieceCountLine = br.readLine();
-            if (pieceCountLine == null) {
-                System.out.println("Error: Missing piece count line");
-                return null;
-            }
-
-            int pieceCount;
-            try {
-                pieceCount = Integer.parseInt(pieceCountLine);
-                if (pieceCount <= 0) {
-                    System.out.println("Error: Piece count must be a positive number");
-                    return null;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Piece count must be a valid number");
-                return null;
-            }
-
-            // Membaca grid
-            char[][] grid = new char[rows][cols];
-            List<Piece> pieces = new ArrayList<>();
-            int exitRow = -1, exitCol = -1;
-            String exitDirection = "right";
-
-            for (int i = 0; i < rows; i++) {
-                String line = br.readLine();
-                if (line == null) {
-                    System.out.println("Error: Not enough rows in the input file");
-                    return null;
-                }
-
-                // Mengecek posisi pintu keluar 'K'
-                if (line.length() > cols && line.charAt(cols) == 'K') {
-                    exitRow = i;
-                    exitCol = cols;
-                    exitDirection = "right";
-                    line = line.substring(0, cols); // Menghapus 'K' dari grid
-                }
-
-                for (int j = 0; j < cols; j++) {
-                    char c = j < line.length() ? line.charAt(j) : '.';
-
-                    if (c != '.' && c != 'K' && (c < 'A' || c > 'Z')) {
-                        System.out.println("Error: Invalid character '" + c + "' in the grid. Only A-Z, '.', and 'K' allowed.");
-                        return null;
-                    }
-
-                    grid[i][j] = c;
-
-                    // Mencatat posisi pintu keluar jika 'K' berada di dalam grid
-                    if (c == 'K') {
-                        exitRow = i;
-                        exitCol = j;
-                        if (i == 0) exitDirection = "top";
-                        else if (i == rows - 1) exitDirection = "bottom";
-                        else if (j == 0) exitDirection = "left";
-                        else if (j == cols - 1) exitDirection = "right";
-                    }
-                }
-            }
-
-            // Jika tidak ditemukan pintu keluar, maka pintu keluar default berada di tengah sisi kanan
-            if (exitRow == -1) {
-                exitRow = rows / 2;
-                exitCol = cols;
-                exitDirection = "right";
-            }
-
-            // Mengidentifikasi potongan (kecuali '.' dan 'K')
-            boolean[][] visited = new boolean[rows][cols];
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    char c = grid[i][j];
-                    if (c != '.' && c != 'K' && !visited[i][j]) {
-                        char id = c;
-                        boolean isPrimary = false;
-
-                        // Menentukan exit direction dari primary piece
-                        if (exitDirection.equals("right") && i == exitRow && j + 1 < cols && grid[i][j + 1] == id) {
-                            isPrimary = true;
-                        } else if (exitDirection.equals("left") && i == exitRow && j > 0 && grid[i][j - 1] == id) {
-                            isPrimary = true;
-                        } else if (exitDirection.equals("bottom") && j == exitCol && i + 1 < rows && grid[i + 1][j] == id) {
-                            isPrimary = true;
-                        } else if (exitDirection.equals("top") && j == exitCol && i > 0 && grid[i - 1][j] == id) {
-                            isPrimary = true;
-                        }
-
-                        int size = 1;
-                        String orientation;
-
-                        // Mengecek orientasi (horizontal atau vertikal)
-                        if (j + 1 < cols && grid[i][j + 1] == id) {
-                            orientation = "horizontal";
-                            while (j + size < cols && grid[i][j + size] == id) {
-                                size++;
-                            }
-                        } else {
-                            orientation = "vertical";
-                            while (i + size < rows && grid[i + size][j] == id) {
-                                size++;
-                            }
-                        }
-
-                        pieces.add(new Piece(id, i, j, size, orientation, isPrimary));
-
-                        // Menandai sel yang sudah dikunjungi
-                        for (int k = 0; k < size; k++) {
-                            if (orientation.equals("horizontal")) {
-                                visited[i][j + k] = true;
-                            } else {
-                                visited[i + k][j] = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Kasus jumlah potongan dalam file berbeda dengan jumlah potongan yang ditemukan
-            int nonPrimaryCount = 0;
-            for (Piece p : pieces) {
-                if (!p.isPrimary()) {
-                    nonPrimaryCount++;
-                }
-            }
-
-            if (pieceCount != nonPrimaryCount) {
-                System.out.println("Warning: Piece count (" + pieceCount + ") does not match actual non-primary pieces found (" + nonPrimaryCount + ").");
-            }
-
-            return new Board(rows, cols, grid, pieces, exitRow, exitCol, exitDirection);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    
+    // Menampilkan solusi ke layar
     private static void printSolution(Board initialBoard, List<Move> solution) {
         Board currentBoard = initialBoard;
         System.out.println("Initial board:");
-        currentBoard.printBoard(null);
+        printBoard(currentBoard, null);
 
         for (int i = 0; i < solution.size(); i++) {
             Move move = solution.get(i);
             System.out.printf("\nMove %d: %s\n", i + 1, move);
 
-            currentBoard = currentBoard.movePiece(move.getPiece(), move.getDirection(), move.getSteps());
-            currentBoard.printBoard(move.getPiece());  // Pass the moving piece
+            // Mencari piece di board saat ini
+            Piece pieceToMove = null;
+            for (Piece p : currentBoard.getPieces()) {
+                if (p.getId() == move.getPiece().getId()) {
+                    pieceToMove = p;
+                    break;
+                }
+            }
+
+            if (pieceToMove == null) {
+                throw new IllegalStateException("Piece " + move.getPiece().getId() + " not found in board");
+            }
+
+            currentBoard = currentBoard.movePiece(pieceToMove, move.getDirection(), move.getSteps());
+            printBoard(currentBoard, pieceToMove);
         }
 
-        // Langkah akhir saat primary piece keluar
+        // Menampilkan langkah keluar terakhir jika puzzle sudah terselesaikan
         if (currentBoard.isSolved()) {
             Piece p = currentBoard.getPrimaryPiece();
-            Move finalMove = new Move(p, currentBoard.getExitDirection(), p.getLength());
+            String exitDirection = p.getOrientation().equals("horizontal") ? "right" : "down";
+            Move finalMove = new Move(p, exitDirection, p.getLength());
             
             System.out.printf("\nMove %d: %s\n", solution.size() + 1, finalMove);
             
-            char[][] grid = currentBoard.getGridCopy();
+            char[][] grid = new char[currentBoard.getRows()][currentBoard.getCols()];
+            for (int i = 0; i < currentBoard.getRows(); i++) {
+                System.arraycopy(currentBoard.getGrid()[i], 0, grid[i], 0, currentBoard.getCols());
+            }
+            
             for (int k = 0; k < p.getLength(); k++) {
                 if (p.getOrientation().equals("horizontal")) {
                     grid[p.getRow()][p.getCol() + k] = '.';
@@ -394,12 +255,52 @@ public class Main {
                 grid,
                 currentBoard.getPieces(),
                 currentBoard.getExitRow(),
-                currentBoard.getExitCol(),
-                currentBoard.getExitDirection()
+                currentBoard.getExitCol()
             );
             
-            exitedBoard.printBoard(null);
+            printBoard(exitedBoard, null);
         }
     }
 
+    // Menampilkan kondisi board
+    private static void printBoard(Board board, Piece movingPiece) {
+        final String RESET = "\u001B[0m";
+        final String RED = "\u001B[31m";
+        final String YELLOW = "\u001B[33m";
+        final String BLUE = "\u001B[34m";
+        
+        char[][] grid = board.getGrid();
+        int rows = board.getRows();
+        int cols = board.getCols();
+        Piece primaryPiece = board.getPrimaryPiece();
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                char cell = grid[i][j];
+                
+                if (cell == primaryPiece.getId()) {
+                    // Primary piece dalam warna biru
+                    System.out.print(BLUE + cell + RESET);
+                } else if (movingPiece != null && cell == movingPiece.getId()) {
+                    // Moving piece dalam warna kuning
+                    System.out.print(YELLOW + cell + RESET);
+                } else if (cell == '.') {
+                    System.out.print(cell);
+                } else if (cell != '.') {
+                    System.out.print(cell);
+                } else {
+                    System.out.print(cell);
+                }
+            }
+
+            // Pintu keluar dalam warna merah
+            if (board.getExitCol() == cols && i == board.getExitRow()) {
+                System.out.print(RED + 'K' + RESET);
+            } else if (board.getExitCol() == cols) {
+                System.out.print(' ');
+            }
+            
+            System.out.println();
+        }
+    }
 }

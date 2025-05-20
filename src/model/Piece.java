@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Piece {
     private final char id;
     private final int length;
@@ -41,6 +43,26 @@ public class Piece {
     }
     public void setCol(int col) {
         this.col = col;
+    }
+
+    @Override
+    // Memeriksa apakah dua piece sama
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return id == piece.id &&
+               row == piece.row &&
+               col == piece.col &&
+               length == piece.length &&
+               isPrimary == piece.isPrimary &&
+               orientation.equals(piece.orientation);
+    }
+
+    @Override
+    // Menghasilkan nilai hash berdasarkan semua atribut yang relevan
+    public int hashCode() {
+        return Objects.hash(id, row, col, length, orientation, isPrimary);
     }
 
 
